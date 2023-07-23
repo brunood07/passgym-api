@@ -1,26 +1,22 @@
-import { prisma } from '@/lib/prisma'
+import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
+import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
-interface RegisterDTO {
+export interface RegisterDTO {
   name: string
   email: string
   password: string
 }
 
-export async function registerUseCase(data: RegisterDTO) {
-  const { email, name, password } = data
-  const emailAlreadyRegistered = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  })
-  if (emailAlreadyRegistered) throw new Error('Invalid data')
-  const password_hash = await hash(password, 6)
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-      password_hash,
-    },
-  })
+export default class RegisterUseCase {
+  constructor(private usersRepository: UsersRepository) {}
+
+  execute = async (data: RegisterDTO) => {
+    const { email, name, password } = data
+    const emailAlreadyRegistered = await this.usersRepository.findByEmail(email)
+    if (emailAlreadyRegistered) throw new UserAlreadyExistsError()
+    const password_hash = await hash(password, 6)
+
+    await this.usersRepository.create({ name, email, password_hash })
+  }
 }
