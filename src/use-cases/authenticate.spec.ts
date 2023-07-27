@@ -1,8 +1,8 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import UsersRepositoryInMemory from '@/repositories/users-repository-in-memory'
 import AuthenticateUseCase from './authenticate'
 import PasswordHash from '@/entities/passward-hash'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
+import UsersRepositoryInMemory from '@/repositories/in-memory/users-repository-in-memory'
 
 let usersRepository: UsersRepositoryInMemory
 let authenticateUseCase: AuthenticateUseCase

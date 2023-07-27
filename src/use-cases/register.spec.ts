@@ -1,8 +1,8 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import RegisterUseCase from './register'
-import UsersRepositoryInMemory from '@/repositories/users-repository-in-memory'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import PasswordHash from '@/entities/passward-hash'
+import UsersRepositoryInMemory from '@/repositories/in-memory/users-repository-in-memory'
 
 let registerUseCase: RegisterUseCase
 

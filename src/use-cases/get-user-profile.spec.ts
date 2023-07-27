@@ -1,8 +1,8 @@
-import UsersRepositoryInMemory from '@/repositories/users-repository-in-memory'
 import { describe, it, beforeEach, expect } from 'vitest'
 import GetUserProfileUseCase from './get-user-profile'
 import PasswordHash from '@/entities/passward-hash'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import UsersRepositoryInMemory from '@/repositories/in-memory/users-repository-in-memory'
 
 let usersRepository: UsersRepositoryInMemory
 let getUserProfile: GetUserProfileUseCase
