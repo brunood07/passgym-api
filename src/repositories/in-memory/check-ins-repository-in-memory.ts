@@ -44,4 +44,31 @@ export default class CheckinsRepositoryInMemory implements CheckinsRepository {
       .filter((item) => item.user_id === userId)
       .slice((page - 1) * 20, page * 20)
   }
+
+  async countByUserId(userId: string): Promise<number> {
+    return this.checkIns.filter((checkin) => checkin.user_id === userId).length
+  }
+
+  async findById(checkinId: string): Promise<CheckIn | null> {
+    const checkin = await this.checkIns.find(
+      (checkin) => checkin.id === checkinId,
+    )
+
+    if (!checkin) {
+      return null
+    }
+    return checkin
+  }
+
+  async save(checkin: CheckIn): Promise<CheckIn> {
+    const checkinIndex = await this.checkIns.findIndex(
+      (item) => item.id === checkin.id,
+    )
+
+    if (checkinIndex >= 0) {
+      this.checkIns[checkinIndex] = checkin
+    }
+
+    return checkin
+  }
 }
