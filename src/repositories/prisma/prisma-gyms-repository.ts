@@ -20,10 +20,26 @@ export default class PrismaGymsRepository implements GymsRepository {
   }
 
   async searchMany(query: string, page: number): Promise<Gym[]> {
-    throw new Error('Method not implemented.')
+    const gyms = await prisma.gym.findMany({
+      where: {
+        title: {
+          contains: query,
+        },
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return gyms
   }
 
   async findManyNearby(params: FindManyNearbyParams): Promise<Gym[]> {
-    throw new Error('Method not implemented.')
+    const { latitude, longitude } = params
+    const gyms = await prisma.$queryRaw<Gym[]>`
+      SELECT * from gyms
+      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+    `
+
+    return gyms
   }
 }
