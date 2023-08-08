@@ -30,3 +30,21 @@ Gympass style app.
 - [x] - Os dados da aplicação precisam estar persistidos em um banco PostgreSql;
 - [] - Todas listas de dados precisam estar paginadas com 20 items por página;
 - [] - O usuário deve ser identificado por um JWT (JSON Web Token);
+
+
+JWT: JSON Web Token
+
+Usuário faz login, envia e-mail/senha, o back-end cria um token único, não modificavel e STATELESS
+
+Stateless: Não armazenado em nenhuma estrutura de persistência de dados (banco de dados)
+
+Back-end: Quando vai criar o token ele usa uma PALAVRA-CHAVE (string)
+
+Palavra-chave:  string aleatoria/hash
+
+E-mail/senha -> header.payload.sign
+
+Login => JWT
+
+JWT => Todas requisições dali pra frente
+Header: Authorization: Bearer 

@@ -15,9 +15,18 @@ export default class AuthenticateController {
     try {
       const authenticateUseCase = makeAuthenticateUseCase()
 
-      const auth = authenticateUseCase.execute({ email, password })
+      const { user } = await authenticateUseCase.execute({ email, password })
 
-      return reply.status(200).send()
+      const token = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: user.id,
+          },
+        },
+      )
+
+      return reply.status(200).send({ token })
     } catch (err) {
       if (err instanceof InvalidCredentialsError) {
         return reply.status(400).send({ message: err.message })
