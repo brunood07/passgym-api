@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify'
-import Register from './controllers/register'
-import AuthenticateController from './controllers/authenticate'
-import ProfileController from './controllers/profile'
-import { verifyJWT } from './middlewares/verify-jwt'
+import Register from './register'
+import AuthenticateController from './authenticate'
+import ProfileController from './profile'
+import { verifyJWT } from '@/http/middlewares/verify-jwt'
 
-export async function appRoutes(app: FastifyInstance) {
+export async function usersRoutes(app: FastifyInstance) {
   const register = new Register()
   const authenticate = new AuthenticateController()
 
