@@ -4,8 +4,10 @@ export default class RefreshController {
   handle = async (request: FastifyRequest, reply: FastifyReply) => {
     await request.jwtVerify({ onlyCookie: true })
 
+    const { role } = request.user
+
     const token = await reply.jwtSign(
-      {},
+      { role },
       {
         sign: {
           sub: request.user.sub,
@@ -14,7 +16,7 @@ export default class RefreshController {
     )
 
     const refreshToken = await reply.jwtSign(
-      {},
+      { role },
       {
         sign: {
           sub: request.user.sub,
